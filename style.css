@@ -1,0 +1,67 @@
+body{
+    background: linear-gradient(to top, rgb(208, 174, 240), #6a1ad2);
+    height: 100vh;
+    margin: 0;
+}
+
+header{
+    text-align: center;
+    font-family: Comic Sans MS;
+    color: white;
+}
+
+p{
+    text-align: center;
+    font-family: Comic Sans MS;
+}
+
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+.spieler1{
+    color: white;
+    align-self: flex-start;
+    margin-top: 50px;
+    margin-right: 100px;
+    font-family: Comic Sans MS;
+
+}
+
+.spieler2{
+    color: white;
+    align-self: flex-start;
+    margin-top: 50px;
+    margin-left: 100px;
+    font-family: Comic Sans MS;
+}
+
+.board{
+    display: grid;
+    /* Wir sagen Grid: Erstelle genau 7 Spalten (1fr = 1 "Fraction" (Teil) des gesamten Platzes) */
+    grid-template-columns: repeat(7, 1fr);
+    /* Genauso für die 6 Reihen */
+    grid-template-rows: repeat(6, 1fr);
+    
+    background-color: blue;
+    gap: 15px; /* Abstand zwischen den Löchern (das Plastikgitter) */
+    padding: 15px; /* Abstand zum blauen Rand */
+    border-radius: 5%; /* Etwas weichere Ecken als 10% */
+    
+    /* Mach das Board responsiv (es wächst/schrumpft, wird aber max. 600px breit) */
+    width: 90vw;
+    max-width: 600px; 
+}
+
+/* Den .row Block können wir jetzt komplett löschen, da es keine Rows mehr im HTML gibt! */
+
+.cell{
+    background-color: white;
+    /* Wir geben keine Breite und Höhe in Pixeln an! Grid regelt das automatisch. */
+    /* aspect-ratio sorgt dafür, dass aus einem Rechteck immer ein Quadrat wird (damit unsere Ecken perfekte Kreise formen) */
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+}
