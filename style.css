@@ -1,18 +1,46 @@
 body{
     background: linear-gradient(to top, rgb(208, 174, 240), #6a1ad2);
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Outfit', sans-serif;
 }
 
 header{
     text-align: center;
-    font-family: Comic Sans MS;
     color: white;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 15px 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.header-info h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.header-info p {
+    margin: 5px 0 0 0;
+    font-size: 1rem;
+    
+}
+
+.logo {
+    position: absolute;
+    left: 40px;
+    max-height: 80px;
+    width: auto;
+    border-radius: 5px;
 }
 
 p{
     text-align: center;
-    font-family: Comic Sans MS;
 }
 
 main{
@@ -20,48 +48,164 @@ main{
     justify-content: center;
     align-items: center;
     gap: 50px;
+    flex: 1;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
-.spieler1{
+.spieler1, .spieler2 {
     color: white;
     align-self: flex-start;
     margin-top: 50px;
-    margin-right: 100px;
-    font-family: Comic Sans MS;
-
-}
-
-.spieler2{
-    color: white;
-    align-self: flex-start;
-    margin-top: 50px;
-    margin-left: 100px;
-    font-family: Comic Sans MS;
 }
 
 .board{
     display: grid;
-    /* Wir sagen Grid: Erstelle genau 7 Spalten (1fr = 1 "Fraction" (Teil) des gesamten Platzes) */
     grid-template-columns: repeat(7, 1fr);
-    /* Genauso für die 6 Reihen */
-    grid-template-rows: repeat(6, 1fr);
-    
+    /* grid-template-rows ENTFERNT: Die Höhe berechnet sich nun automatisch durch die aspect-ratio der Zellen! */
     background-color: blue;
-    gap: 15px; /* Abstand zwischen den Löchern (das Plastikgitter) */
-    padding: 15px; /* Abstand zum blauen Rand */
-    border-radius: 5%; /* Etwas weichere Ecken als 10% */
-    
-    /* Mach das Board responsiv (es wächst/schrumpft, wird aber max. 600px breit) */
+    gap: 15px; 
+    padding: 15px; 
+    border-radius: 5%; 
     width: 90vw;
     max-width: 600px; 
 }
 
-/* Den .row Block können wir jetzt komplett löschen, da es keine Rows mehr im HTML gibt! */
+/* Responsives Design: Auf kleineren Bildschirmen alles untereinander stapeln */
+@media (max-width: 950px) {
+    main {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .spieler1, .spieler2 {
+        align-self: center;
+        margin-top: 0;
+    }
+
+    .board {
+        gap: 1.5vw;
+        padding: 2vw;
+    }
+    
+    .logo {
+        max-height: 40px; /* Logo kleiner machen, um Text nicht zu überlagern */
+        left: 15px;
+    }
+}
+
+
 
 .cell{
     background-color: white;
-    /* Wir geben keine Breite und Höhe in Pixeln an! Grid regelt das automatisch. */
-    /* aspect-ratio sorgt dafür, dass aus einem Rechteck immer ein Quadrat wird (damit unsere Ecken perfekte Kreise formen) */
     aspect-ratio: 1 / 1;
     border-radius: 50%;
+}
+
+/* Farben für die eigentlichen Spielsteine im Board */
+.cell.red {
+    background-color: red;
+}
+
+.cell.yellow {
+    background-color: yellow;
+}
+
+/* Farbmarkierungen neben den Spielernamen */
+.player-color {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin-left: 10px;
+    vertical-align: text-bottom;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.player-color.red {
+    background-color: red;
+}
+
+.player-color.yellow {
+    background-color: yellow;
+}
+
+/* Für sehr kleine Handy-Bildschirme (Hochformat) */
+@media (max-width: 550px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .logo {
+        position: static; /* Position absolute aufheben */
+        max-height: 60px;
+    }
+}
+
+/* --- Modal & Button Styling --- */
+dialog {
+    border: none;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    background-color: white;
+    font-family: 'Outfit', sans-serif;
+    text-align: center;
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #6a1ad2;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: bold;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+button:hover {
+    background-color: #4b0e9a;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+#start-btn {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.controls-container {
+    text-align: center;
+    padding-bottom: 30px;
 }

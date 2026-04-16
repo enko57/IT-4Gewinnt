@@ -4,17 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>4 Gewinnt</title>
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Start Modal -->
+    <dialog id="start-modal">
+        <div class="modal-content">
+            <h2>Willkommen zu 4 Gewinnt!</h2>
+            <div class="input-group">
+                <label for="player1-name">Spieler 1 (Rot):</label>
+                <input type="text" id="player1-name" value="Spieler 1" maxlength="15">
+            </div>
+            <div class="input-group">
+                <label for="player2-name">Spieler 2 (Gelb):</label>
+                <input type="text" id="player2-name" value="Spieler 2" maxlength="15">
+            </div>
+            <button id="start-btn">Spiel Starten</button>
+        </div>
+    </dialog>
     <header>
-        <h1>4 Gewinnt</h1>
-        <p>by Enis Salaj</p>
+        <img src="HS-Esslingen.png" alt="Hochschule Esslingen Logo" class="logo">
+        <div class="header-info">
+            <h1>4 Gewinnt</h1>
+            <p>Enis Salaj | SWB | ES</p>
+        </div>
     </header>
 
     <main>
         <div class="spieler1">
-            <h2>Spieler 1</h2>
+            <h2><span id="name1-display">Spieler 1</span> <span class="player-color red"></span></h2>
             <p>Du bist dran</p>
         </div>
         <div class="board">
@@ -27,10 +49,15 @@
             <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
         </div>
         <div class="spieler2">
-            <h2>Spieler 2</h2>
+            <h2><span id="name2-display">Spieler 2</span> <span class="player-color yellow"></span></h2>
             <p>Du bist dran</p> 
         </div>
     </main>
+
+    <!-- Neuer Reset Button -->
+    <div class="controls-container">
+        <button id="reset-btn">Neues Spiel</button>
+    </div>
 
     <script src="script.js"></script>
 </body>
