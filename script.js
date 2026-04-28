@@ -1,8 +1,7 @@
 let currentPlayer = 1;
 let gameOver = false;
 
-// 1. Das logische Spielfeld (2D-Array)
-// 6 Reihen (Zeilen), jede Reihe hat 7 Spalten. '0' bedeutet das Feld ist leer.
+// Das ist das Spielfeld-Array und speichert die gesetzten Steine. 0 ist ein leeres Feld.
 let board = [
     [0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0],
@@ -12,101 +11,99 @@ let board = [
     [0, 0, 0, 0, 0, 0, 0]
 ];
 
-// Es ist guter Code-Stil, Zeilen und Spalten als Konstanten zu speichern
+// Das sind Konstanten und speichern die Spielfeldgröße.
 const ROWS = 6;
 const COLS = 7;
 
-// 2. DOM-Verknüpfungen (Die Elemente aus dem HTML)
-// cells ist eine NodeList (fast wie ein Array) mit allen 42 runden DIVs
+// Das ist die cells-Liste und speichert alle HTML-Kreise.
 const cells = document.querySelectorAll('.cell');
-// Wir gehen jede einzelne Zelle (cell) durch und merken uns auch ihren Index (0 bis 41)
+
+// Das ist eine Schleife und fügt jedem Kreis ein Klick-Event hinzu.
 cells.forEach((cell, index) => {
     
-    // Füge einen "Klick-Lauscher" an die Zelle an
     cell.addEventListener('click', () => {
         
-        // Berechne die Spalte (0 bis 6) durch die Modulo-Rechnung (% COLS)
+        // Das ist die Spaltenberechnung und findet die geklickte Spalte.
         let clickedCol = index % COLS;
         
-        // Wir übergeben die geklickte Spalte an unsere Logik-Funktion
+        // Das ist der Funktionsaufruf und startet den Spielzug.
         handleCellClick(clickedCol);
     });
 });
 
-// Diese Funktion kümmert sich um die Spiellogik NACH einem Klick
+// Das ist die Spiellogik-Funktion und führt den Zug aus.
 function handleCellClick(col) {
-    if (gameOver) return; // Wenn das Spiel zu Ende ist, blockiere weitere Klicks
+    if (gameOver) return; // Bricht ab, wenn das Spiel vorbei ist.
     
     console.log("Es wurde auf Spalte " + col + " geklickt!");
     
-    // Gravitation (korrigiert):
+    // Das ist die Gravitations-Schleife und findet die unterste freie Reihe.
     for (let row = ROWS - 1; row >= 0; row--) {
         if (board[row][col] === 0) {
-            board[row][col] = currentPlayer; // Stein wird im Array platziert
+            board[row][col] = currentPlayer; // Setzt den Stein im Array.
             
-            // 1. Zelle im HTML anhand der Zeile und Spalte genau identifizieren
+            // Das ist der Zellen-Index und findet den richtigen HTML-Kreis.
             let exactCellIndex = (row * 7) + col; 
             
-            // 2. Farbe der HTML Zelle updaten
+            // Das ist die Farb-Logik und färbt den HTML-Kreis ein.
             if (currentPlayer === 1) {
                 cells[exactCellIndex].classList.add('red');
             } else {
                 cells[exactCellIndex].classList.add('yellow');
             }
             
-            // 3. Prüfen, ob dieser Zug ein Sieg war!
+            // Das ist der Gewinn-Check und prüft, ob jemand gewonnen hat.
             if (checkWin(row, col)) {
-                gameOver = true; // Spiel sofort einfrieren
+                gameOver = true; // Setzt den Status auf "Spiel vorbei".
                 
-                // Gewinnername ermitteln
+                // Das ist die Gewinner-Ermittlung und findet den Namen.
                 let winnerName = (currentPlayer === 1) ? document.getElementById('name1-display').textContent : document.getElementById('name2-display').textContent;
                 
                 setTimeout(() => alert("🎉 Herzlichen Glückwunsch " + winnerName + ", du hast gewonnen!"), 10);
                 
-                // Alle UI Anzeigen voll sichtbar machen für die Feier
+                // Macht beide Spieleranzeigen voll sichtbar.
                 spieler1Anzeige.style.opacity = '1';
                 spieler2Anzeige.style.opacity = '1';
                 break; 
             }
             
-            // 4. Wenn niemand gewonnen hat, Spieler wechseln und Anzeige updaten
+            // Das ist der Spieler-Wechsel und ändert, wer dran ist.
             currentPlayer = (currentPlayer === 1) ? 2 : 1; 
             updatePlayerTurnUI();
             
-            // 5. Stein gefunden und gesetzt -> for-Schleife beenden
-            break; 
+            break; // Beendet die Schleife nach dem Setzen.
         }
     }
 }
-// DOM-Verknüpfungen für die Spieleranzeigen
+
+// Das sind UI-Verknüpfungen und speichern die HTML-Spieleranzeigen.
 const spieler1Anzeige = document.querySelector('.spieler1');
 const spieler2Anzeige = document.querySelector('.spieler2');
 
-// Starte das UI sauber (Spieler 2 wird am Anfang abgedunkelt)
 updatePlayerTurnUI();
 
-// Funktion: Ändert das Aussehen (Deckkraft/Opacity), je nachdem, wer dran ist
+// Das ist die UI-Funktion und aktualisiert die Anzeige für den aktuellen Spieler.
 function updatePlayerTurnUI() {
     if (gameOver) return;
     
     if (currentPlayer === 1) {
-        spieler1Anzeige.style.opacity = '1';    // 100% sichtbar
-        spieler2Anzeige.style.opacity = '0.3';  // 30% sichtbar (verblasst)
+        spieler1Anzeige.style.opacity = '1';    
+        spieler2Anzeige.style.opacity = '0.3';  
     } else {
         spieler1Anzeige.style.opacity = '0.3';
         spieler2Anzeige.style.opacity = '1';
     }
 }
 
-// Phase 4: GEWINNERMITTLUNG (Prüft nach jedem Klick auf "4 am Stück")
+// Das ist die Gewinn-Prüffunktion und sucht nach 4 Steinen in einer Reihe.
 function checkWin(r, c) {
-    // Unser kleiner Helfer: Geht Schritt für Schritt in EINE Richtung und zählt Steine der gleichen Farbe
+    // Das ist die Hilfsfunktion und zählt Steine in eine bestimmte Richtung.
     function countDirection(rowDelta, colDelta) {
         let count = 0;
         let rTemp = r + rowDelta;
         let cTemp = c + colDelta;
         
-        // Solange das nächste Feld noch auf dem Brett liegt UND denselben Spieler gegehört: Weiterzählen!
+        // Zählt solange weiter, wie das Feld dem gleichen Spieler gehört.
         while (rTemp >= 0 && rTemp < ROWS && cTemp >= 0 && cTemp < COLS && board[rTemp][cTemp] === currentPlayer) {
             count++;
             rTemp += rowDelta;
@@ -115,22 +112,20 @@ function checkWin(r, c) {
         return count;
     }
 
-    // Wir prüfen alle 4 Linien, die durch den gesetzten Stein entstehen:
-    // Die "+ 1" steht immer für den Stein, den wir GERADE gesetzt haben!
-    let horizontal = 1 + countDirection(0, -1) + countDirection(0, 1);     // links + rechts schauen
-    let vertical   = 1 + countDirection(1, 0);                             // nach unten schauen (oben ist eh leer)
-    let diag1      = 1 + countDirection(-1, -1) + countDirection(1, 1);    // oben-links nach unten-rechts
-    let diag2      = 1 + countDirection(1, -1) + countDirection(-1, 1);    // unten-links nach oben-rechts
+    // Das sind die Richtungs-Checks und prüfen horizontal, vertikal und diagonal.
+    let horizontal = 1 + countDirection(0, -1) + countDirection(0, 1);     
+    let vertical   = 1 + countDirection(1, 0);                             
+    let diag1      = 1 + countDirection(-1, -1) + countDirection(1, 1);    
+    let diag2      = 1 + countDirection(1, -1) + countDirection(-1, 1);    
     
-    // Haben wir irgendwo 4 Steine?
+    // Prüft, ob einer der Zähler 4 oder höher ist.
     if (horizontal >= 4 || vertical >= 4 || diag1 >= 4 || diag2 >= 4) {
         return true; 
     }
     return false;
 }
 
-// --- Phase 5: Namenseingabe und Reset ---
-
+// Das sind die Start/Reset-Verknüpfungen und holen HTML-Elemente für das Menü.
 const modal = document.getElementById('start-modal');
 const startBtn = document.getElementById('start-btn');
 const resetBtn = document.getElementById('reset-btn');
@@ -139,12 +134,12 @@ const inputP2 = document.getElementById('player2-name');
 const name1Display = document.getElementById('name1-display');
 const name2Display = document.getElementById('name2-display');
 
-// Modal beim Laden der Seite öffnen
+// Öffnet das Modal beim Seitenstart.
 window.addEventListener('DOMContentLoaded', () => {
     modal.showModal();
 });
 
-// "Spiel Starten" geklickt
+// Startet das Spiel und übernimmt die Namen bei Klick.
 startBtn.addEventListener('click', () => {
     if (inputP1.value.trim() !== '') {
         name1Display.textContent = inputP1.value.trim();
@@ -155,24 +150,24 @@ startBtn.addEventListener('click', () => {
     modal.close();
 });
 
-// "Neues Spiel" geklickt
+// Setzt das Spiel zurück bei Klick.
 resetBtn.addEventListener('click', () => {
-    // 1. Daten (Arrays) nullen
+    // Leert das Spielfeld-Array.
     for(let r = 0; r < ROWS; r++) {
         for(let c = 0; c < COLS; c++) {
             board[r][c] = 0;
         }
     }
     
-    // 2. Spielstatus resetten
+    // Setzt den Spielstatus zurück.
     currentPlayer = 1;
     gameOver = false;
     
-    // 3. HTML (Kreise) leeren
+    // Entfernt die Farben von allen HTML-Kreisen.
     cells.forEach(cell => {
         cell.classList.remove('red', 'yellow');
     });
     
-    // 4. UI wieder sauber machen
+    // Aktualisiert die Anzeige.
     updatePlayerTurnUI();
 });
