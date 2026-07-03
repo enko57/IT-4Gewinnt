@@ -1,3 +1,4 @@
+/* Styling für den gesamten Bildschirm und Hintergrund */
 body{
     background: linear-gradient(to top, rgb(208, 174, 240), #6a1ad2);
     min-height: 100vh;
@@ -7,6 +8,7 @@ body{
     font-family: 'Outfit', sans-serif;
 }
 
+/* Styling für den Kopfbereich oben */
 header{
     text-align: center;
     color: white;
@@ -20,17 +22,19 @@ header{
     position: relative;
 }
 
+/* Styling für die Hauptüberschrift */
 .header-info h1 {
     margin: 0;
     font-size: 2rem;
 }
 
+/* Styling für den Text unter der Überschrift */
 .header-info p {
     margin: 5px 0 0 0;
     font-size: 1rem;
-    
 }
 
+/* Styling und Positionierung für das Logo */
 .logo {
     position: absolute;
     left: 40px;
@@ -39,10 +43,12 @@ header{
     border-radius: 5px;
 }
 
+/* Zentriert alle einfachen Absätze */
 p{
     text-align: center;
 }
 
+/* Hauptbereich, der Spielfeld und Spieleranzeigen nebeneinander anordnet */
 main{
     display: flex;
     justify-content: center;
@@ -53,16 +59,17 @@ main{
     padding-bottom: 20px;
 }
 
+/* Styling für die Namensanzeigen von Spieler 1 und Spieler 2 */
 .spieler1, .spieler2 {
     color: white;
     align-self: flex-start;
     margin-top: 50px;
 }
 
+/* Layout für das Spielfeld mit 7 Spalten */
 .board{
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    /* grid-template-rows ENTFERNT: Die Höhe berechnet sich nun automatisch durch die aspect-ratio der Zellen! */
     background-color: blue;
     gap: 15px; 
     padding: 15px; 
@@ -71,7 +78,7 @@ main{
     max-width: 600px; 
 }
 
-/* Responsives Design: Auf kleineren Bildschirmen alles untereinander stapeln */
+/* Anpassungen für kleinere Bildschirme (Tablets und Laptops) */
 @media (max-width: 950px) {
     main {
         flex-direction: column;
@@ -89,29 +96,29 @@ main{
     }
     
     .logo {
-        max-height: 40px; /* Logo kleiner machen, um Text nicht zu überlagern */
+        max-height: 40px;
         left: 15px;
     }
 }
 
-
-
+/* Styling für einen einzelnen Kreis (Zelle) auf dem Spielfeld */
 .cell{
     background-color: white;
     aspect-ratio: 1 / 1;
     border-radius: 50%;
 }
 
-/* Farben für die eigentlichen Spielsteine im Board */
+/* Rote Farbe für Spieler 1 Steine im Spielfeld */
 .cell.red {
     background-color: red;
 }
 
+/* Gelbe Farbe für Spieler 2 Steine im Spielfeld */
 .cell.yellow {
     background-color: yellow;
 }
 
-/* Farbmarkierungen neben den Spielernamen */
+/* Kleine Farbkreise neben den Spielernamen */
 .player-color {
     display: inline-block;
     width: 25px;
@@ -122,27 +129,29 @@ main{
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
+/* Roter Farbkreis für Spieler 1 Anzeige */
 .player-color.red {
     background-color: red;
 }
 
+/* Gelber Farbkreis für Spieler 2 Anzeige */
 .player-color.yellow {
     background-color: yellow;
 }
 
-/* Für sehr kleine Handy-Bildschirme (Hochformat) */
+/* Anpassungen für sehr kleine Bildschirme (Handys im Hochformat) */
 @media (max-width: 550px) {
     header {
         flex-direction: column;
         gap: 15px;
     }
     .logo {
-        position: static; /* Position absolute aufheben */
+        position: static;
         max-height: 60px;
     }
 }
 
-/* --- Modal & Button Styling --- */
+/* Styling für das Start-Fenster (Modal) */
 dialog {
     border: none;
     border-radius: 12px;
@@ -153,22 +162,26 @@ dialog {
     text-align: center;
 }
 
+/* Verdunkelter Hintergrund hinter dem geöffneten Start-Fenster */
 dialog::backdrop {
     background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(5px);
 }
 
+/* Behälter für die Namenseingabefelder */
 .input-group {
     margin-bottom: 20px;
     text-align: left;
 }
 
+/* Styling für die Beschriftung der Eingabefelder */
 .input-group label {
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
 }
 
+/* Styling für die Textfelder zur Namenseingabe */
 .input-group input {
     width: 100%;
     padding: 10px;
@@ -179,6 +192,7 @@ dialog::backdrop {
     box-sizing: border-box;
 }
 
+/* Standard-Styling für alle klickbaren Buttons */
 button {
     background-color: #6a1ad2;
     color: white;
@@ -192,20 +206,24 @@ button {
     transition: background-color 0.2s, transform 0.1s;
 }
 
+/* Farbe des Buttons, wenn die Maus darüber schwebt */
 button:hover {
     background-color: #4b0e9a;
 }
 
+/* Kleine Animation beim Klicken eines Buttons */
 button:active {
     transform: scale(0.95);
 }
 
+/* Spezielles Styling für den Button im Start-Fenster */
 #start-btn {
     width: 100%;
     margin-top: 10px;
 }
 
+/* Behälter für den Neustart-Button unter dem Spielfeld */
 .controls-container {
     text-align: center;
     padding-bottom: 30px;
-}
+}
